@@ -5,7 +5,7 @@ import { Alert, Pressable, StyleSheet, TextInput } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { auth } from '@/lib/firebase';
+import { auth } from '@/lib/renamed-firebase';
 
 export default function LoginScreen() {
   const router = useRouter();

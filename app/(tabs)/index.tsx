@@ -6,7 +6,7 @@ import { Pressable, StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { auth, db } from '@/lib/firebase';
+import { auth, db } from '@/lib/renamed-firebase';
 import { doc, getDoc } from "firebase/firestore";
 
 export default function HomeScreen() {

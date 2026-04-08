@@ -5,7 +5,7 @@ import { Alert, Pressable, StyleSheet, TextInput } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { auth, db } from '@/lib/firebase';
+import { auth, db } from '@/lib/renamed-firebase';
 import { doc, setDoc } from "firebase/firestore";
 
 export default function RegisterScreen() {
