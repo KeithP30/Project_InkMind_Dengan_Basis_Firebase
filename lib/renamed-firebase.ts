@@ -4,19 +4,19 @@ import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyCrB2QfyDMcNk5ydTGbHUGrUYBk1gFVJ3Y",
+  apiKey: "RAHASIA",
 
-  authDomain: "mobile-prj-c55cb.firebaseapp.com",
+  authDomain: "...",
 
-  projectId: "mobile-prj-c55cb",
+  projectId: "...",
 
-  storageBucket: "mobile-prj-c55cb.firebasestorage.app",
+  storageBucket: "...",
 
-  messagingSenderId: "472348663178",
+  messagingSenderId: "...",
 
-  appId: "1:472348663178:web:75802dca76107302b4fc73",
+  appId: "...",
 
-  measurementId: "G-MDTG7R7LTP"
+  measurementId: "..."
 
 };
 
