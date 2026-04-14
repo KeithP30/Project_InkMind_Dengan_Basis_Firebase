@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { HapticTab } from '@/components/haptic-tab';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { auth } from '@/lib/renamed-firebase';
+import { auth } from '@/lib/firebase';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -40,6 +40,12 @@ export default function TabLayout() {
     name="characters"
     options={{ title: "Characters" }}
   />
+  <Tabs.Screen 
+  name="scenes" 
+  options={{ title: "Scenes" }} 
+  />
 </Tabs>
+
+
   );
 }

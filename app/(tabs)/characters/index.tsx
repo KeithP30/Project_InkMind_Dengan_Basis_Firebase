@@ -1,4 +1,4 @@
-import { db } from "@/lib/renamed-firebase";
+import { db } from "@/lib/firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { collection, getDocs } from "firebase/firestore";

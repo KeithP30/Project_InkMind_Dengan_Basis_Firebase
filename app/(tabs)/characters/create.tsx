@@ -1,4 +1,4 @@
-import { db } from "@/lib/renamed-firebase";
+import { db } from "@/lib/firebase";
 import { useRouter } from "expo-router";
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";

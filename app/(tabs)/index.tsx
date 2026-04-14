@@ -1,98 +1,88 @@
-import { useRouter } from 'expo-router';
-import { signOut } from 'firebase/auth';
-import { addDoc, collection } from "firebase/firestore";
-import React, { useEffect, useState } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { db } from "@/lib/firebase";
+import { useFocusEffect } from "@react-navigation/native";
+import { useRouter } from "expo-router";
+import { collection, getDocs } from "firebase/firestore";
+import { useCallback, useEffect, useState } from "react";
+import { Pressable, Text, View } from "react-native";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { auth, db } from '@/lib/renamed-firebase';
-import { doc, getDoc } from "firebase/firestore";
 
 export default function HomeScreen() {
   const router = useRouter();
-  const [email, setEmail] = useState<string | null>(null);
+
+  const [characterCount, setCharacterCount] = useState(0);
+
+  const fetchStats = async () => {
+    const snapshot = await getDocs(collection(db, "characters"));
+    setCharacterCount(snapshot.size);
+  };
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (!user) {
-        router.replace('/login');
-        return;
-      }
-      setEmail(user.email ?? user.uid);
-    });
-    return unsubscribe;
-  }, [router]);
-
-  const onLogout = async () => {
-    await signOut(auth);
-    router.replace('/login');
-  };
-
+    fetchStats();
+  }, []);
   
-  const saveDataUser = async () => {
-  try {
-    await addDoc(collection(db, "users"), {
-      Username: "Admin1234@mail.com",
-      Password: "123456",
-    });
-    alert("Data berhasil disimpan");
-  } catch (e) {
-    console.log(e);
-    alert("Gagal simpan data");
-  }
-};
-
-const [userData, setUserData] = useState<any>(null);
-
-useEffect(() => {
-  const fetchUser = async () => {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    const docRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      setUserData(docSnap.data());
-    } else {
-      console.log("User tidak ditemukan");
-    }
-  };
-
-  fetchUser();
-}, []);
+  useFocusEffect(
+  useCallback(() => {
+    fetchStats();
+  }, [])
+);
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">Home</ThemedText>
-      <ThemedText type="subtitle">Nama user login</ThemedText>
-      <ThemedText type="defaultSemiBold">{email ?? '-'}</ThemedText>
+    <View style={{ flex: 1, padding: 16 }}>
 
-      <Pressable style={styles.logoutButton} onPress={onLogout}>
-        <ThemedText type="defaultSemiBold" style={styles.logoutButtonText}>
-          Logout
-        </ThemedText>
-      </Pressable>
-    </ThemedView>
+      {/* HEADER */}
+      <Text style={{ fontSize: 26, fontWeight: "bold" }}>
+        InkMind
+      </Text>
+      <Text style={{ color: "#888", marginTop: 4 }}>
+        Build your story world
+      </Text>
+
+      {/* STATS */}
+      <View
+        style={{
+          marginTop: 20,
+          padding: 16,
+          borderRadius: 12,
+          backgroundColor: "#1e1e1e",
+        }}
+      >
+        <Text style={{ color: "#aaa" }}>Characters</Text>
+        <Text style={{ fontSize: 22, color: "#fff", marginTop: 4 }}>
+          {characterCount}
+        </Text>
+      </View>
+
+      {/* ACTIONS */}
+      <View style={{ marginTop: 20 }}>
+
+        <Pressable
+          onPress={() => router.push("/characters")}
+          style={{
+            padding: 16,
+            borderRadius: 12,
+            backgroundColor: "#2a2a2a",
+            marginBottom: 10,
+          }}
+        >
+          <Text style={{ color: "#fff" }}>
+            📚 View Characters
+          </Text>
+        </Pressable>
+
+        <Pressable
+          onPress={() => router.push("/characters/create")}
+          style={{
+            padding: 16,
+            borderRadius: 12,
+            backgroundColor: "#4a90e2",
+          }}
+        >
+          <Text style={{ color: "#fff" }}>
+            ➕ Add New Character
+          </Text>
+        </Pressable>
+
+      </View>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    justifyContent: 'center',
-    gap: 12,
-  },
-  logoutButton: {
-    marginTop: 10,
-    backgroundColor: '#ef4444',
-    borderRadius: 10,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  logoutButtonText: {
-    color: '#ffffff',
-  },
-});
